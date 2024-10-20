@@ -1,4 +1,4 @@
-#include "dinvec.h" 
+#include "dinvec.c" 
 
 typedef struct {
     int id;
@@ -14,18 +14,26 @@ int main() {
     // Создаем несколько структур
     Person p1 = {1, "Alice"};
     Person p2 = {2, "Bob"};
+    Person p3 = {3, "Charlie"};
     int i1 = 1;
     int i2 = 2;
+    int i3 = 3;
 
     vector_push(&vector_struct, &p1);
     vector_push(&vector_struct, &p2);
+    vector_push(&vector_struct, &p3);
     vector_push(&vector_int, &i1);
     vector_push(&vector_int, &i2);
+    vector_push(&vector_int, &i3);
 
     // Тест сохранения данных
     p1.id = 10;
     strcpy(p1.name, "AliceUpdated");
     i1 = 10;
+
+    // Тест удаления элемента
+    vector_remove(&vector_struct, 1);
+    vector_remove(&vector_int, 1);
 
     // Вывод
     for (size_t i = 0; i < vector_struct.size; i++) {

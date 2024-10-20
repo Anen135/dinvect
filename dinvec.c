@@ -34,3 +34,14 @@ void vector_free(Vector *vector) {
     vector->capacity = 0;
     vector->elem_size = 0;
 }
+
+void vector_remove(Vector *vector, size_t index) {
+    if (index < vector->size) {
+        memmove(
+            (char*)vector->data + index * vector->elem_size,        
+            (char*)vector->data + (index + 1) * vector->elem_size,    
+            (vector->size - index - 1) * vector->elem_size          
+        );
+        vector->size--;
+    }
+}
