@@ -37,11 +37,13 @@ void vector_free(Vector *vector) {
 
 void vector_remove(Vector *vector, size_t index) {
     if (index < vector->size) {
+        memset((char*)vector->data + index * vector->elem_size, 0, vector->elem_size);
         memmove(
-            (char*)vector->data + index * vector->elem_size,        
+            (char*)vector->data + index * vector->elem_size,          
             (char*)vector->data + (index + 1) * vector->elem_size,    
-            (vector->size - index - 1) * vector->elem_size          
+            (vector->size - index - 1) * vector->elem_size            
         );
-        vector->size--;
+        vector->size--; 
     }
 }
+

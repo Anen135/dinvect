@@ -1,4 +1,4 @@
-#include "dinvec.c" 
+#include "dinvec.h" 
 
 typedef struct {
     int id;
