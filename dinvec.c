@@ -35,15 +35,21 @@ void vector_free(Vector *vector) {
     vector->elem_size = 0;
 }
 
-void vector_remove(Vector *vector, size_t index) {
-    if (index < vector->size) {
-        memset((char*)vector->data + index * vector->elem_size, 0, vector->elem_size);
-        memmove(
-            (char*)vector->data + index * vector->elem_size,          
-            (char*)vector->data + (index + 1) * vector->elem_size,    
-            (vector->size - index - 1) * vector->elem_size            
-        );
-        vector->size--; 
+void vector_remove(Vector *vector, size_t index, void (*free_func)(void *)) {
+    if (index >= vector->size) {
+        return; // Если некорректный индекс, вернуть нулевой указательapt install snapd     
     }
+    if (free_func) {
+        free_func((char*)vector->data + index * vector->elem_size); // Если объект динамический, обязательно предоставить функцию очистки
+    } else {
+        memset((char*)vector->data + index * vector->elem_size, 0, vector->elem_size); // Если объект статический, то осовбождать ничего не нужно.
+    }
+    if (index < vector->size - 1) {
+        memmove((char*)vector->data + index * vector->elem_size,
+                (char*)vector->data + (index + 1) * vector->elem_size,
+                (vector->size - index - 1) * vector->elem_size);
+    }
+    vector->size--;
 }
+
 

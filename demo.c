@@ -1,4 +1,4 @@
-#include "dinvec.h" 
+#include "dinvec.c" 
 
 typedef struct {
     int id;
@@ -32,8 +32,8 @@ int main() {
     i1 = 10;
 
     // Тест удаления элемента
-    vector_remove(&vector_struct, 1);
-    vector_remove(&vector_int, 1);
+    vector_remove(&vector_struct, 1, free);
+    vector_remove(&vector_int, 1, NULL);
 
     // Вывод
     for (size_t i = 0; i < vector_struct.size; i++) {

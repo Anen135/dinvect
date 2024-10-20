@@ -15,7 +15,7 @@ void vector_resize(Vector *vector, size_t new_capacity);
 void vector_push(Vector *vector, void *value);
 void* vector_get(Vector *vector, size_t index);
 void vector_free(Vector *vector);
-void vector_remove(Vector *vector, size_t index);
+void vector_remove(Vector *vector, size_t index, void (*free_func)(void *));
 
 
 #endif
