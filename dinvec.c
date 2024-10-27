@@ -1,10 +1,15 @@
 #include "dinvec.h"
 
-void vector_init(Vector *vector, size_t elem_size, size_t capacity) {
-    vector->data = malloc(elem_size * capacity); 
+
+
+Vector* construct_vector(size_t elem_size, size_t capacity, void (*free_func)(void *)) {
+    Vector *vector =(Vector*) malloc(sizeof(Vector)); // выделяем память для самой структуры
+    vector->data = malloc(elem_size * capacity);
     vector->size = 0;
     vector->capacity = capacity;
     vector->elem_size = elem_size;
+    vector->free_func = free_func;
+    return vector;
 }
 
 void vector_resize(Vector *vector, size_t new_capacity) {
@@ -35,12 +40,12 @@ void vector_free(Vector *vector) {
     vector->elem_size = 0;
 }
 
-void vector_remove(Vector *vector, size_t index, void (*free_func)(void *)) {
+void vector_remove(Vector *vector, size_t index) {
     if (index >= vector->size) {
         return; // Если некорректный индекс, вернуть нулевой указательapt install snapd     
     }
-    if (free_func) {
-        free_func((char*)vector->data + index * vector->elem_size); // Если объект динамический, обязательно предоставить функцию очистки
+    if (vector->free_func) {
+        vector->free_func((char*)vector->data + index * vector->elem_size); // Если объект динамический, обязательно предоставить функцию очистки
     } else {
         memset((char*)vector->data + index * vector->elem_size, 0, vector->elem_size); // Если объект статический, то осовбождать ничего не нужно.
     }
